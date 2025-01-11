@@ -1,0 +1,31 @@
+module lightcontrol(
+    input wire clock,
+    input wire person_detected,
+    input wire person_direction,
+    output reg light
+);
+
+reg [7:0] counter = 0;
+
+initial begin
+    light = 0;
+end
+
+always @(posedge clock) begin
+            if(person_detected) begin
+                if(person_direction)
+                    counter <= counter + 1;
+                else
+                    if(counter > 0)
+                        counter <= counter - 1;
+            end
+end
+
+always @(*) begin
+    if(counter > 0)
+         light = 1;
+    else
+         light = 0;
+end
+
+endmodule
